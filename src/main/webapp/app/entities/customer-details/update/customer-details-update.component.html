@@ -1,0 +1,143 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-customer-details-heading"
+        data-cy="CustomerDetailsCreateUpdateHeading"
+        jhiTranslate="boutiqueApp.customerDetails.home.createOrEditLabel"
+      >
+        Create or edit a Customer Details
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="boutiqueApp.customerDetails.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_gender" jhiTranslate="boutiqueApp.customerDetails.gender">Gender</label>
+          <select class="form-control" name="gender" formControlName="gender" id="field_gender" data-cy="gender">
+            <option [ngValue]="null">{{ 'boutiqueApp.Gender.null' | translate }}</option>
+            @for (gender of genderValues; track $index) {
+              <option [value]="gender">{{ 'boutiqueApp.Gender.' + gender | translate }}</option>
+            }
+          </select>
+          @if (editForm.get('gender')!.invalid && (editForm.get('gender')!.dirty || editForm.get('gender')!.touched)) {
+            <div>
+              @if (editForm.get('gender')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_phone" jhiTranslate="boutiqueApp.customerDetails.phone">Phone</label>
+          <input type="text" class="form-control" name="phone" id="field_phone" data-cy="phone" formControlName="phone" />
+          @if (editForm.get('phone')!.invalid && (editForm.get('phone')!.dirty || editForm.get('phone')!.touched)) {
+            <div>
+              @if (editForm.get('phone')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_addressLine1" jhiTranslate="boutiqueApp.customerDetails.addressLine1">Address Line 1</label>
+          <input
+            type="text"
+            class="form-control"
+            name="addressLine1"
+            id="field_addressLine1"
+            data-cy="addressLine1"
+            formControlName="addressLine1"
+          />
+          @if (editForm.get('addressLine1')!.invalid && (editForm.get('addressLine1')!.dirty || editForm.get('addressLine1')!.touched)) {
+            <div>
+              @if (editForm.get('addressLine1')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_addressLine2" jhiTranslate="boutiqueApp.customerDetails.addressLine2">Address Line 2</label>
+          <input
+            type="text"
+            class="form-control"
+            name="addressLine2"
+            id="field_addressLine2"
+            data-cy="addressLine2"
+            formControlName="addressLine2"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_city" jhiTranslate="boutiqueApp.customerDetails.city">City</label>
+          <input type="text" class="form-control" name="city" id="field_city" data-cy="city" formControlName="city" />
+          @if (editForm.get('city')!.invalid && (editForm.get('city')!.dirty || editForm.get('city')!.touched)) {
+            <div>
+              @if (editForm.get('city')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_country" jhiTranslate="boutiqueApp.customerDetails.country">Country</label>
+          <input type="text" class="form-control" name="country" id="field_country" data-cy="country" formControlName="country" />
+          @if (editForm.get('country')!.invalid && (editForm.get('country')!.dirty || editForm.get('country')!.touched)) {
+            <div>
+              @if (editForm.get('country')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_user" jhiTranslate="boutiqueApp.customerDetails.user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            @if (!editForm.get('user')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (userOption of usersSharedCollection; track $index) {
+              <option [ngValue]="userOption">{{ userOption.login }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['user'])!.invalid && (editForm.get(['user'])!.dirty || editForm.get(['user'])!.touched)) {
+          <div>
+            @if (editForm.get(['user'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

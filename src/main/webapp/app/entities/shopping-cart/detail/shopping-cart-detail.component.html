@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (shoppingCart()) {
+      <div>
+        <h2 data-cy="shoppingCartDetailsHeading"><span jhiTranslate="boutiqueApp.shoppingCart.detail.title">Shopping Cart</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ shoppingCart()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="boutiqueApp.shoppingCart.placedDate">Placed Date</span></dt>
+          <dd>
+            <span>{{ shoppingCart()!.placedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="boutiqueApp.shoppingCart.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'boutiqueApp.OrderStatus.' + (shoppingCart()!.status ?? 'null')">{{
+              { null: '', COMPLETED: 'COMPLETED', PAID: 'PAID', PENDING: 'PENDING', CANCELLED: 'CANCELLED', REFUNDED: 'REFUNDED' }[
+                shoppingCart()!.status ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="boutiqueApp.shoppingCart.totalPrice">Total Price</span></dt>
+          <dd>
+            <span>{{ shoppingCart()!.totalPrice }}</span>
+          </dd>
+          <dt><span jhiTranslate="boutiqueApp.shoppingCart.paymentMethod">Payment Method</span></dt>
+          <dd>
+            <span [jhiTranslate]="'boutiqueApp.PaymentMethod.' + (shoppingCart()!.paymentMethod ?? 'null')">{{
+              { null: '', CREDIT_CARD: 'card', IDEAL: 'ideal' }[shoppingCart()!.paymentMethod ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="boutiqueApp.shoppingCart.paymentReference">Payment Reference</span></dt>
+          <dd>
+            <span>{{ shoppingCart()!.paymentReference }}</span>
+          </dd>
+          <dt><span jhiTranslate="boutiqueApp.shoppingCart.customerDetails">Customer Details</span></dt>
+          <dd>
+            @if (shoppingCart()!.customerDetails) {
+              <div>
+                <a [routerLink]="['/customer-details', shoppingCart()!.customerDetails?.id, 'view']">{{
+                  shoppingCart()!.customerDetails?.id
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/shopping-cart', shoppingCart()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

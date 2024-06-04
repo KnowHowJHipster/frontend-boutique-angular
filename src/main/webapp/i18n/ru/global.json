@@ -8,7 +8,11 @@
       "entities": {
         "main": "Сущности",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "adminAuthority": "Authority"
+        "product": "Product",
+        "productCategory": "Product Category",
+        "customerDetails": "Customer Details",
+        "shoppingCart": "Shopping Cart",
+        "productOrder": "Product Order"
       },
       "account": {
         "main": "Профиль",
