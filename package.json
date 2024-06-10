@@ -79,7 +79,7 @@
     "@angular/service-worker": "17.3.9",
     "@types/jest": "29.5.12",
     "@types/node": "20.14.2",
-    "@typescript-eslint/eslint-plugin": "7.12.0",
+    "@typescript-eslint/eslint-plugin": "7.13.0",
     "@typescript-eslint/parser": "7.12.0",
     "browser-sync": "3.0.2",
     "browser-sync-webpack-plugin": "2.3.0",
